@@ -136,19 +136,18 @@ def clean_data(df, profile_filepath):
 
 
 
-def save_data(df_score, database_filename):
+def save_data(df_score):
     """ Function to save the data in sql file
     INPUT:
         df (DataFrame): A dataframe of three datasets
         database_filename (str): Path to save sql database
     """
-    engine = create_engine('sqlite:///{}'.format(database_filename))
-    df_score.to_sql('df_score', engine, if_exists='replace', index=False)
+    df_score.to_csv('df_score.csv')
 
 
 def main():
     if len(sys.argv) == 5:
-        portfolio_filepath, profile_filepath, transcript_filepath, database_filepath = sys.argv[1:]
+        portfolio_filepath, profile_filepath, transcript_filepath, csv_filepath = sys.argv[1:]
 
         print('Loading data...\n   PORTFOLIO: {}\n     PROFILE: {}\n    TRANSCRIPT: {}'.format(
             portfolio_filepath, profile_filepath, transcript_filepath))
@@ -158,8 +157,8 @@ def main():
         print('Cleaning data...')
         df_score = clean_data(df, profile_filepath)
 
-        print('Saving data...\n     DATABASE: {}'.format(database_filepath))
-        save_data(df_score, database_filepath)
+        print('Saving data...\n     DATABASE: {}'.format(csv_filepath))
+        save_data(df_score)
 
         print('Cleaned data saved to database!')
     

@@ -83,7 +83,6 @@ def load_data(portfolio_filepath, profile_filepath, transcript_filepath):
 
 
 
-
 def clean_data(df):
     """ Function to clean df data
     INPUT:
@@ -91,7 +90,6 @@ def clean_data(df):
     OUTPUT:
         df (DataFrame): A cleaned df
     """
-
 
     # Create age_group column and the value of 118 will be 'NaN' in the age_group.
     age_bins = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 105]
@@ -123,6 +121,10 @@ def clean_data(df):
     df.drop('became_member_on', axis=1, inplace=True)
 
     return df
+
+
+
+
 
 
 def save_data(df, database_filename):
