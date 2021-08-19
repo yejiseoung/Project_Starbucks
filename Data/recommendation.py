@@ -162,7 +162,7 @@ if __name__ == '__main__':
     rec.load_data(df_score_pth='../Data_ing/df_score.csv', df_pth='../Data_ing/starbucks.db')
 
     # fit recommender 
-    rec.fit(latent_features=10, learning_rate=0.0001, iters=250)
+    rec.fit(latent_features=10, learning_rate=0.0008, iters=100)
     
     # make comparison
     rec.make_comparison(customer_id=945)
