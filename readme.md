@@ -32,6 +32,11 @@ The model with learning_rate = 0.0008 looked promising, so the final model's par
 ![last_model](/images/last_model.png)
 
 
+Finally, the model recommends offer numbers based on customer_id. For example, the model recommended offers for customer_id = 945. 
+
+![recommend](/images/recommend.png)
+
+
 ## Executing Program:
 1. Run the following commends in terminal to clean data and store the cleaned data
 
@@ -43,6 +48,7 @@ The model with learning_rate = 0.0008 looked promising, so the final model's par
 `python Data/create_df_score.py Data/portfolio.json Data/profile.json Data/transcript.json Data/df_score.csv`
 
 3. Run `python Data/recommendation.py`
+In recommendation.py, you can change parameters for the model and put specific customer id to see the offer recommendation. 
 
 
 ## File Descriptions
