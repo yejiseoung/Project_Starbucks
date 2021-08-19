@@ -63,6 +63,24 @@ def PB_score(n_received, n_viewed, n_completed):
     return np.round(PB_score, 2)
 
 
+def customer_map(df_score, col):
+    """
+    This function maps between actual customer ids and the integer values.
+    """
+    dict_coded = dict()
+    cter = 1
+    customer_encoded = []
+
+    for val in df_score[col]:
+        if val not in dict_coded:
+            dict_coded[val] = cter
+            cter += 1
+        
+        customer_encoded.append(dict_coded[val])
+
+    return customer_encoded, dict_coded
+
+
 def load_data(portfolio_filepath, profile_filepath, transcript_filepath):
     """ Function to load 3 datasets (portfolio, profile, transcript)
     INPUTS:
@@ -111,6 +129,11 @@ def clean_data(df, profile_filepath):
     # create dummy columns for event
     df_offer = pd.concat([df_offer, pd.get_dummies(df_offer['event'])], axis=1)
 
+    # create customer_id as integer values
+    customer_encoded, dict_coded = customer_map(df_offer, 'customer_id')
+    del df_offer['customer_id']
+    df_offer['customer_id'] = customer_encoded
+
     # create a dataframe that has only transaction infro and compute the total spent amount
     df_transaction = df[df['event'] == 'transaction'].groupby('customer_id').agg({'amount':'sum'}).reset_index()
 
@@ -130,25 +153,24 @@ def clean_data(df, profile_filepath):
     df_score = df_offer.groupby(['customer_id', 'offer_number']).agg(dct)
     df_score['PB'] = [PB_score(df_score.iloc[i, 0], df_score.iloc[i, 1], df_score.iloc[i, 2]) for i in range(df_score.shape[0])]
 
-
+    print("df_score:\n", df_score.head(10))
     return df_score
 
 
 
 
-def save_data(df_score, database_filename):
+def save_data(df_score):
     """ Function to save the data in sql file
     INPUT:
         df (DataFrame): A dataframe of three datasets
         database_filename (str): Path to save sql database
     """
-    engine = create_engine('sqlite:///{}'.format(database_filename))
-    df_score.to_sql('df_score', engine, if_exists='replace', index=False)
+    df_score.to_csv('df_score.csv')
 
 
 def main():
     if len(sys.argv) == 5:
-        portfolio_filepath, profile_filepath, transcript_filepath, database_filepath = sys.argv[1:]
+        portfolio_filepath, profile_filepath, transcript_filepath, csv_filepath = sys.argv[1:]
 
         print('Loading data...\n   PORTFOLIO: {}\n     PROFILE: {}\n    TRANSCRIPT: {}'.format(
             portfolio_filepath, profile_filepath, transcript_filepath))
@@ -158,8 +180,8 @@ def main():
         print('Cleaning data...')
         df_score = clean_data(df, profile_filepath)
 
-        print('Saving data...\n     DATABASE: {}'.format(database_filepath))
-        save_data(df_score, database_filepath)
+        print('Saving data...\n     DATABASE: {}'.format(csv_filepath))
+        save_data(df_score)
 
         print('Cleaned data saved to database!')
     
