@@ -62,9 +62,8 @@ The files structure is arranged as below:
         - profile.json - a dataset
         - transcript.json - a dataset
 
-
-## Additional Material
-- **Starbucks.ipynb** shows the entire workflow including cleaning data, visualizing data, building the model, and evaludating model. 
+    - Starbucks.ipynb shows the entire workflow including cleaning data, visualizing data, building the model, and evaludating model. 
+    - readme.md
 
 
 
