@@ -32,6 +32,36 @@ The model with learning_rate = 0.0008 looked promising, so the final model's par
 ![last_model](/images/last_model.png)
 
 
+## Executing Program:
+1. Run the following commends in terminal to clean data and store the cleaned data
+
+`python Data/process_data.py Data/portfolio.json Data/profile.json Data/transcript.json Data/starbucks.db`
+
+
+2. Run the following commends to create df_score.csv
+
+`python Data/create_df_score.py Data/portfolio.json Data/profile.json Data/transcript.json Data/df_score.csv`
+
+3. Run `python Data/recommendation.py`
+
+
+## File Descriptions
+The files structure is arranged as below:
+
+    - Data
+        - process_data.py - clean portfolio, profile, and transcript json files and combine them
+        - create_df_score.py - create df_score csv file which has customer_id, offer_numbers and PB score
+        - recommendation.py - create df_recs matrix which has customers-offers pairs. df_recs is sparse matrix, so we created FunkSVD algorithm to build the recommendation model. Also, it performs model evaludation by creating mean-squared-error plot based on model iterations. 
+        - portfolio.json - a dataset
+        - profile.json - a dataset
+        - transcript.json - a dataset
+
+
+## Additional Material
+- **Starbucks.ipynb** shows the entire workflow including cleaning data, visualizing data, building the model, and evaludating model. 
+
+
+
 ## Visualization
 We created graphs to see the patterns or distributions in dataset. Here are some examples:
 
@@ -41,13 +71,6 @@ Customers have gotten BOGO or discount offers more than informational offers.
 
 
 ![graph2](/images/d_offer_numbers.png)
-
-
-
-
-
-
-
 
 
 
